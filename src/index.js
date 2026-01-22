@@ -70,7 +70,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if(quiz.timeRemaining<=0){
           quiz.hasEnded()
           showResults();
-          timeRemainingContainer.innerText=""
+          const minutes = Math.floor(quiz.timeLimit / 60).toString().padStart(2, "0");
+          const seconds = (quiz.timeLimit % 60).toString().padStart(2, "0");
+          timeRemainingContainer.innerText = `${minutes}:${seconds}`;
           //endView.style.display = "block";
          // quizView.style.display = "none";
           clearInterval(timer)
@@ -125,7 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log(quiz.currentQuestionIndex)
     console.log(quiz.questions.length)
   
-    progressBar.style.width = `${((quiz.currentQuestionIndex+1)/(quiz.questions.length))*100}%`; // This value is hardcoded as a placeholder
+    progressBar.style.width = `${((quiz.currentQuestionIndex)/(quiz.questions.length))*100}%`; // This value is hardcoded as a placeholder
 
 
 

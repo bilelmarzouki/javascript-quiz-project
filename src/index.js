@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const questionContainer = document.querySelector("#question");
   const choiceContainer = document.querySelector("#choices");
   const nextButton = document.querySelector("#nextButton");
-
+  const divContainer=document.querySelector(".container");
   // End view elements
   const resultContainer = document.querySelector("#result");
 
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Show the quiz view (div#quizView) and hide the end view (div#endView)
   quizView.style.display = "block";
   endView.style.display = "none";
-
+  
 
   /************  QUIZ DATA  ************/
   
@@ -46,20 +46,39 @@ document.addEventListener("DOMContentLoaded", () => {
   /************  SHOW INITIAL CONTENT  ************/
 
   // Convert the time remaining in seconds to minutes and seconds, and pad the numbers with zeros if needed
-  const minutes = Math.floor(quiz.timeRemaining / 60).toString().padStart(2, "0");
-  const seconds = (quiz.timeRemaining % 60).toString().padStart(2, "0");
 
   // Display the time remaining in the time remaining container
   const timeRemainingContainer = document.getElementById("timeRemaining");
-  timeRemainingContainer.innerText = `${minutes}:${seconds}`;
+  
+  
+  divContainer.style.position="relative"
+  timeRemainingContainer.style.position="absolute"
+  timeRemainingContainer.style.top="50px"
+  timeRemainingContainer.style.right="20px"
 
+  
+  
   // Show first question
   showQuestion();
 
 
   /************  TIMER  ************/
 
-  let timer;
+  let timer= setInterval(()=>{
+         
+        quiz.timeRemaining -= 1;
+        if(quiz.timeRemaining<=0){
+          quiz.hasEnded()
+          showResults();
+          timeRemainingContainer.innerText=""
+          //endView.style.display = "block";
+         // quizView.style.display = "none";
+          clearInterval(timer)
+        }
+        const minutes = Math.floor(quiz.timeRemaining / 60).toString().padStart(2, "0");
+        const seconds = (quiz.timeRemaining % 60).toString().padStart(2, "0");
+        timeRemainingContainer.innerText = `${minutes}:${seconds}`;
+  },1000);
 
 
   /************  EVENT LISTENERS  ************/
